@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 
@@ -6,7 +6,7 @@ function App() {
   return (
     <div>
       <header>
-        <a href="/farm">Desert Farm</a>
+        <Link to="/">Desert Farm</Link>
       </header>
       <main>
         <Routes>
