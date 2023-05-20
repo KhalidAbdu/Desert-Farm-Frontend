@@ -3,6 +3,9 @@ import axios from 'axios';
 import logger from 'use-reducer-logger';
 import { Col, Row } from 'react-bootstrap';
 import Product from '../components/Product';
+import { Helmet } from 'react-helmet-async';
+import Loading from '../components/Loading';
+import Message from '../components/Message';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -37,12 +40,15 @@ function HomePage() {
   }, []);
   return (
     <div>
+      <Helmet>
+        <title>Desert Farm</title>
+      </Helmet>
       <h1>Farm Products</h1>
       <div className="products">
         {loading ? (
-          <p>Loading ...</p>
+          <Loading />
         ) : error ? (
-          <p>{error}</p>
+          <Message variant="danger">{error}</Message>
         ) : (
           <Row>
             {products.map((product) => (

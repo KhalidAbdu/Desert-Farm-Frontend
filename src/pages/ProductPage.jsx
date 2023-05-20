@@ -1,17 +1,12 @@
 import axios from 'axios';
 import { useEffect, useReducer } from 'react';
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Row,
-} from 'react-bootstrap';
+import { Badge, Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { Helmet } from 'react-helmet-async';
+import Loading from '../components/Loading';
+import Message from '../components/Message';
+import { getError } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -41,15 +36,15 @@ function ProductPage() {
         );
         dispatch({ type: 'FETCH_SUCCUESS', payload: response.data });
       } catch (error) {
-        dispatch({ type: 'FETCH_FAIL', payload: error.message });
+        dispatch({ type: 'FETCH_FAIL', payload: getError(error) });
       }
     };
     fetchData();
   }, [slug]);
   return loading ? (
-    <div>Loading ...</div>
+    <Loading />
   ) : error ? (
-    <div>{error}</div>
+    <Message variant="danger">{error}</Message>
   ) : (
     <div>
       <Row>
