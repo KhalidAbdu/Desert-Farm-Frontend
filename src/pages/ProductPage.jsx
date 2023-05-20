@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useReducer } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import { Badge, Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import Rating from '../components/Rating';
@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
 import { getError } from '../utils';
+import { Store } from '../Store';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -41,6 +42,13 @@ function ProductPage() {
     };
     fetchData();
   }, [slug]);
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const AddToCartHandler = () => {
+    ctxDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...product, quantity: 1 },
+    });
+  };
   return loading ? (
     <Loading />
   ) : error ? (
@@ -92,7 +100,11 @@ function ProductPage() {
                 {product.countInTock > 0 && (
                   <ListGroup.Item>
                     <div className="d-grid">
-                      <Button variant="flush" className="btn-primary">
+                      <Button
+                        onClick={AddToCartHandler}
+                        variant="flush"
+                        className="btn-primary"
+                      >
                         Buy
                       </Button>
                     </div>
