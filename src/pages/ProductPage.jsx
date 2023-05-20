@@ -43,10 +43,21 @@ function ProductPage() {
     fetchData();
   }, [slug]);
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const AddToCartHandler = () => {
+  const { cart } = state;
+  const AddToCartHandler = async () => {
+    const anItem = cart.cartItems.find(
+      (oneItem) => oneItem._id === product._id
+    );
+    const quantity = anItem ? anItem.quantity + 1 : 1;
+    const { data } = await axios.get(
+      `http://localhost:5005/api/products/${product._id}`
+    );
+    if (data.countInTock < quantity) {
+      window.alert('Product will be available soon');
+    }
     ctxDispatch({
       type: 'CART_ADD_ITEM',
-      payload: { ...product, quantity: 1 },
+      payload: { ...product, quantity },
     });
   };
   return loading ? (
