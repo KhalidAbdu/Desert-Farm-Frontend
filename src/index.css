@@ -20,3 +20,13 @@ main {
 .site-container {
   min-height: 100vh;
 }
+.rating span {
+  color: darkolivegreen;
+}
+.btn-primary {
+  background-color: rgb(69, 36, 36);
+  border-color: black;
+}
+.img-large {
+  max-width: 100%;
+}
