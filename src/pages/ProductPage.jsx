@@ -1,8 +1,17 @@
 import axios from 'axios';
 import { useEffect, useReducer } from 'react';
-import { Col, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  ListGroup,
+  ListGroupItem,
+  Row,
+} from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import Rating from '../components/Rating';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -50,6 +59,9 @@ function ProductPage() {
         <Col md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item>
+              <Helmet>
+                <title>{product.name}</title>
+              </Helmet>
               <h1>{product.name}</h1>
             </ListGroup.Item>
             <ListGroup.Item>
@@ -59,7 +71,42 @@ function ProductPage() {
             <ListGroup.Item>Description : {product.decription}</ListGroup.Item>
           </ListGroup>
         </Col>
-        <Col md={3}></Col>
+        <Col md={3}>
+          <Card>
+            <Card.Body>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Price:</Col>
+                    <Col>${product.price}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Status:</Col>
+                    <Col>
+                      {product.countInTock > 0 ? (
+                        <Badge bg="success">Available</Badge>
+                      ) : (
+                        <Badge bg="danger">Out of Stock</Badge>
+                      )}
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+
+                {product.countInTock > 0 && (
+                  <ListGroup.Item>
+                    <div className="d-grid">
+                      <Button variant="flush" className="btn-primary">
+                        Buy
+                      </Button>
+                    </div>
+                  </ListGroup.Item>
+                )}
+              </ListGroup>
+            </Card.Body>
+          </Card>
+        </Col>
       </Row>
     </div>
   );
