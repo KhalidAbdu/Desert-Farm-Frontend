@@ -10,13 +10,33 @@ import {
   Row,
 } from 'react-bootstrap';
 import Message from '../components/Message';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function CartPage() {
+  const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     cart: { cartItems },
   } = state;
+  const updateCartHandler = async (item, quantity) => {
+    const { data } = await axios.get(
+      `http://localhost:5005/api/products/${item._id}`
+    );
+    if (data.countInTock < quantity) {
+      window.alert('Product will be available soon');
+    }
+    ctxDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...item, quantity },
+    });
+  };
+  const handleRemove = (item) => {
+    ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+  };
+  const checkoutHandler = () => {
+    navigate('/signin?redirect=/shipping');
+  };
   return (
     <div>
       <Helmet>
@@ -42,11 +62,20 @@ function CartPage() {
                       <Link to={`/product/${item.slug}`}>{item.name}</Link>
                     </Col>
                     <Col md={3}>
-                      <Button variant="light" disabled={item.quantity === 1}>
+                      <Button
+                        onClick={() =>
+                          updateCartHandler(item, item.quantity - 1)
+                        }
+                        variant="light"
+                        disabled={item.quantity === 1}
+                      >
                         <i className="fas fa-minus-circle"></i>
                       </Button>{' '}
                       <span>{item.quantity}</span>{' '}
                       <Button
+                        onClick={() =>
+                          updateCartHandler(item, item.quantity + 1)
+                        }
                         variant="light"
                         disabled={item.quantity === item.countInTock}
                       >
@@ -55,7 +84,10 @@ function CartPage() {
                     </Col>
                     <Col md={3}>${item.price}</Col>
                     <Col md={2}>
-                      <Button variant="light">
+                      <Button
+                        onClick={() => handleRemove(item)}
+                        variant="light"
+                      >
                         <i className="fas fa-trash"></i>
                       </Button>{' '}
                     </Col>
@@ -79,6 +111,7 @@ function CartPage() {
                 <ListGroupItem>
                   <div className="d-grid">
                     <Button
+                      onClick={checkoutHandler}
                       type="button"
                       variant="primary"
                       disabled={cartItems.length === 0}
