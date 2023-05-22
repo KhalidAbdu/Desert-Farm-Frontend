@@ -9,6 +9,7 @@ import { useContext } from 'react';
 import { Store } from './Store';
 import CartPage from './pages/CartPage';
 import SigninPage from './pages/SigninPage';
+import ShippingPage from './pages/ShippingPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -16,6 +17,7 @@ function App() {
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
   };
   return (
     <div className="d-flex flex-column site-container">
@@ -68,6 +70,7 @@ function App() {
             <Route path="/product/:slug" element={<ProductPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/signin" element={<SigninPage />} />
+            <Route path="/shipping" element={<ShippingPage />} />
           </Routes>
         </Container>
       </main>
