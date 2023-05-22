@@ -37,7 +37,6 @@ function reducer(state, action) {
     case 'USER_SIGNOUT': {
       return { ...state, userInfo: null };
     }
-
     default:
       return state;
   }
