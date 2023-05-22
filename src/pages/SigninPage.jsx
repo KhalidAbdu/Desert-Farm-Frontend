@@ -4,6 +4,8 @@ import { Button, Container, Form } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
+import { toast } from 'react-toastify';
+import { getError } from '../utils';
 
 function SigninPage() {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ function SigninPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { userInfo } = state;
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -27,9 +30,14 @@ function SigninPage() {
       localStorage.setItem('userInfo', JSON.stringify(data));
       navigate(redirect || '/');
     } catch (error) {
-      alert('Wrong password or email');
+      toast.error(getError(error));
     }
   };
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, redirect, userInfo]);
   return (
     <div>
       <Container className="small-container">

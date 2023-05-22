@@ -1,4 +1,6 @@
 import { Link, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 import { Badge, Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
@@ -17,6 +19,7 @@ function App() {
   };
   return (
     <div className="d-flex flex-column site-container">
+      <ToastContainer position="bottom-center" limi={1} />
       <header>
         <Navbar bg="success" variant="dark">
           <Container>
