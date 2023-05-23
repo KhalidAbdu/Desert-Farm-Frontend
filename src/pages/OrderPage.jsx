@@ -1,11 +1,30 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
+import { getError } from '../utils';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import Loading from '../components/Loading';
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'CREATE_REQUEST':
+      return { ...state, loading: true };
+    case 'CREATE_SUCCESS':
+      return { ...state, loading: false };
+    case 'CREATE_FAIL':
+      return { ...state, loading: false };
+    default:
+      return state;
+  }
+};
 function OrderPage() {
   const navigate = useNavigate();
+  const [{ loading }, dispatch] = useReducer(reducer, {
+    loading: false,
+  });
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
   cart.itemsPrice = cart.cartItems.reduce(
@@ -14,7 +33,33 @@ function OrderPage() {
   );
   cart.shippingPrice = 15;
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice;
-  const placeOrderHandler = () => {};
+
+  const placeOrderHandler = async () => {
+    try {
+      dispatch({ type: 'CREATE_REQUEST' });
+      const { data } = await axios.post(
+        'http://localhost:5005/api/orders',
+        {
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: cart.itemsPrice,
+          shippingPrice: cart.shippingPrice,
+          totalPrice: cart.totalPrice,
+        },
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      ctxDispatch({ type: 'CART_CLEAR' });
+      dispatch({ type: 'CREATE_SUCCESS' });
+      localStorage.removeItem('cartItems');
+      navigate(`/order/${data.order._id}`);
+    } catch (error) {
+      dispatch({ type: 'CREATE_FAIL' });
+      toast.error(getError(error));
+    }
+  };
   useEffect(() => {
     if (!cart.paymentMethod) {
       navigate('/payment');
@@ -113,6 +158,7 @@ function OrderPage() {
                       Place Order
                     </Button>
                   </div>
+                  {loading && <Loading></Loading>}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
