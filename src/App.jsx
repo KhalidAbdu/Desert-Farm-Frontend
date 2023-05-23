@@ -11,6 +11,7 @@ import CartPage from './pages/CartPage';
 import SigninPage from './pages/SigninPage';
 import ShippingPage from './pages/ShippingPage';
 import SignupPage from './pages/SignupPage';
+import PaymentMethodPage from './pages/PaymentMethodPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -19,6 +20,7 @@ function App() {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
   };
   return (
     <div className="d-flex flex-column site-container">
@@ -73,6 +75,7 @@ function App() {
             <Route path="/signin" element={<SigninPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/shipping" element={<ShippingPage />} />
+            <Route path="/payment" element={<PaymentMethodPage />} />
           </Routes>
         </Container>
       </main>
