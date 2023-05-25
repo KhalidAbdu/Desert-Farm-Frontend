@@ -16,6 +16,9 @@ import OrderPage from './pages/OrderPage';
 import ShowingOrders from './pages/ShowingOrders';
 import OrderHistory from './pages/OrderHistory';
 import ProfilePage from './pages/ProfilePage';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -69,6 +72,22 @@ function App() {
                     Sign In
                   </Link>
                 )}
+                {userInfo && userInfo.isAdmin && (
+                  <NavDropdown title="Admin" id="admin-nav-dropdown">
+                    <LinkContainer to="/admin/dashboard">
+                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/productlist">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/orderlist">
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/userlist">
+                      <NavDropdown.Item>Users</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -85,9 +104,38 @@ function App() {
             <Route path="/shipping" element={<ShippingPage />} />
             <Route path="/payment" element={<PaymentMethodPage />} />
             <Route path="/placeorder" element={<OrderPage />} />
-            <Route path="/order/:id" element={<ShowingOrders />} />
-            <Route path="/orderhistory" element={<OrderHistory />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route
+              path="/order/:id"
+              element={
+                <ProtectedRoute>
+                  <ShowingOrders />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/orderhistory"
+              element={
+                <ProtectedRoute>
+                  <OrderHistory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRoute>
+                  <DashboardPage></DashboardPage>
+                </AdminRoute>
+              }
+            ></Route>
           </Routes>
         </Container>
       </main>
