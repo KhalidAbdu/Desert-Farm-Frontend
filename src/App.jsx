@@ -15,6 +15,7 @@ import PaymentMethodPage from './pages/PaymentMethodPage';
 import OrderPage from './pages/OrderPage';
 import ShowingOrders from './pages/ShowingOrders';
 import OrderHistory from './pages/OrderHistory';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -24,6 +25,7 @@ function App() {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
+    window.location.href = '/signin';
   };
   return (
     <div className="d-flex flex-column site-container">
@@ -85,6 +87,7 @@ function App() {
             <Route path="/placeorder" element={<OrderPage />} />
             <Route path="/order/:id" element={<ShowingOrders />} />
             <Route path="/orderhistory" element={<OrderHistory />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </Container>
       </main>

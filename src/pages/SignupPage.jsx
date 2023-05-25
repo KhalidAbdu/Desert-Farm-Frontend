@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, FormLabel } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
@@ -58,7 +58,7 @@ function SignupPage() {
             <Form.Control onChange={(e) => setName(e.target.value)} required />
           </Form.Group>
           <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email</Form.Label>
+            <FormLabel>Email</FormLabel>
             <Form.Control
               type="email"
               required
