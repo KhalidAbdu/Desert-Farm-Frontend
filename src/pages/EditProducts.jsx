@@ -30,6 +30,12 @@ const reducer = (state, action) => {
       return { ...state, loadingUpdate: false };
     case 'UPDATE_FAIL':
       return { ...state, loadingUpdate: false };
+    case 'UPLOAD_REQUEST':
+      return { ...state, loadingUpload: true, errorUpload: '' };
+    case 'UPLOAD_SUCCESS':
+      return { ...state, loadingUpload: false, errorUpload: '' };
+    case 'UPLOAD_FAIL':
+      return { ...state, loadingUpload: false, errorUpload: action.payload };
     default:
       return state;
   }
@@ -38,10 +44,11 @@ function EditProducts() {
   const navigate = useNavigate();
   const params = useParams();
   const { id: productId } = params;
-  const [{ loading, error, loadingUpdate }, dispatch] = useReducer(reducer, {
-    loading: true,
-    error: '',
-  });
+  const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: '',
+    });
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [price, setPrice] = useState('');
@@ -102,6 +109,31 @@ function EditProducts() {
     } catch (error) {
       toast.error(getError(error));
       dispatch({ type: 'UPDATE_FAIL' });
+    }
+  };
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append('file', file);
+    try {
+      dispatch({ type: 'UPLOAD_REQUEST' });
+      const { data } = await axios.post(
+        'http://localhost:5005/api/upload',
+        bodyFormData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      dispatch({ type: 'UPLOAD_SUCCESS' });
+
+      toast.success('Image uploaded successfully');
+      setImage(data.secure_url);
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
     }
   };
   return (
@@ -179,6 +211,11 @@ function EditProducts() {
               onChange={(e) => setImage(e.target.value)}
               required
             />
+          </FormGroup>
+          <FormGroup className="mb-3" controlId="imageFile">
+            <FormLabel>Upload File</FormLabel>
+            <FormControl type="file" onChange={uploadFileHandler} />
+            {loadingUpload && <Loading></Loading>}
           </FormGroup>
           <div className="mb-3">
             <Button disabled={loadingUpdate} type="submit">
