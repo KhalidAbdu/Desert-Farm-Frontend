@@ -28,17 +28,35 @@ const reducer = (state, action) => {
       return { ...state, loadingCreate: false };
     case 'CREATE_FAIL':
       return { ...state, loadingCreate: false };
+    case 'DELETE_REQUEST':
+      return { ...state, loadingDelete: true, successDelete: false };
+    case 'DELETE_SUCCESS':
+      return { ...state, loadingDelete: false, successDelete: true };
+    case 'DELETE_FAIL':
+      return { ...state, loadingDelete: false, successDelete: false };
+    case 'DELETE_RESET':
+      return { ...state, loadingDelete: false, successDelete: false };
     default:
       return state;
   }
 };
 function ListProducts() {
   const navigate = useNavigate();
-  const [{ loading, error, products, pages, loadingCreate }, dispatch] =
-    useReducer(reducer, {
-      loading: true,
-      error: '',
-    });
+  const [
+    {
+      loading,
+      error,
+      products,
+      pages,
+      loadingCreate,
+      loadingDelete,
+      successDelete,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
+    loading: true,
+    error: '',
+  });
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const page = sp.get('page') || 1;
@@ -58,8 +76,13 @@ function ListProducts() {
         dispatch({ type: 'FETCH_FAIL', payload: getError(error) });
       }
     };
-    fetchData();
-  }, [userInfo, page]);
+
+    if (successDelete) {
+      dispatch({ type: 'DELETE_RESET' });
+    } else {
+      fetchData();
+    }
+  }, [userInfo, page, successDelete]);
   const createHandler = async () => {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
@@ -78,6 +101,18 @@ function ListProducts() {
       dispatch({ type: 'CREATE_FAIL' });
     }
   };
+  const deleteHandler = async (product) => {
+    try {
+      await axios.delete(`http://localhost:5005/api/products/${product._id}`, {
+        headers: { authorization: `Bearer ${userInfo.token}` },
+      });
+      toast.success('Product Deleted');
+      dispatch({ type: 'DELETE_SUCCESS' });
+    } catch (error) {
+      toast.error(getError);
+      dispatch({ type: 'DELETE_FAIL' });
+    }
+  };
   return (
     <div>
       <Row>
@@ -92,6 +127,7 @@ function ListProducts() {
         </div>
       </Row>
       {loadingCreate && <Loading></Loading>}
+      {loadingDelete && <Loading></Loading>}
       {loading ? (
         <Loading></Loading>
       ) : error ? (
@@ -124,6 +160,14 @@ function ListProducts() {
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
                       Edit
+                    </Button>
+                    &nbsp;
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => deleteHandler(product)}
+                    >
+                      Delete
                     </Button>
                   </td>
                 </tr>
