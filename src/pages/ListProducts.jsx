@@ -117,6 +117,15 @@ function ListProducts() {
                   <td>{product.brand}</td>
                   <td>{product.category}</td>
                   <td>{product.price}</td>
+                  <td>
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => navigate(`/admin/product/${product._id}`)}
+                    >
+                      Edit
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
