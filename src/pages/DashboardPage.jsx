@@ -29,7 +29,7 @@ function DashboardPage() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          'http://localhost:5005/api/orders/summary',
+          `${import.meta.env.VITE_BASE_API_URL}/api/orders/summary`,
           {
             headers: { authorization: `Bearer ${userInfo.token}` },
           }

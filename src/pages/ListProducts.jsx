@@ -66,7 +66,9 @@ function ListProducts() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5005/api/products/admin?page=${page}`,
+          `${
+            import.meta.env.VITE_BASE_API_URL
+          }/api/products/admin?page=${page}`,
           {
             headers: { authorization: `Bearer ${userInfo.token}` },
           }
@@ -87,7 +89,7 @@ function ListProducts() {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
       const { data } = await axios.post(
-        'http://localhost:5005/api/products',
+        `${import.meta.env.VITE_BASE_API_URL}/api/products`,
         {},
         {
           headers: { authorization: `Bearer ${userInfo.token}` },
@@ -103,9 +105,12 @@ function ListProducts() {
   };
   const deleteHandler = async (product) => {
     try {
-      await axios.delete(`http://localhost:5005/api/products/${product._id}`, {
-        headers: { authorization: `Bearer ${userInfo.token}` },
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_BASE_API_URL}/api/products/${product._id}`,
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
       toast.success('Product Deleted');
       dispatch({ type: 'DELETE_SUCCESS' });
     } catch (error) {

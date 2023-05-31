@@ -65,7 +65,7 @@ function EditProducts() {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
         const { data } = await axios.get(
-          `http://localhost:5005/api/products/${productId}`
+          `${import.meta.env.VITE_BASE_API_URL}/api/products/${productId}`
         );
         setName(data.name);
         setSlug(data.slug);
@@ -87,7 +87,7 @@ function EditProducts() {
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
-        `http://localhost:5005/api/products/${productId}`,
+        `${import.meta.env.VITE_BASE_API_URL}/api/products/${productId}`,
         {
           _id: productId,
           name,
@@ -118,7 +118,7 @@ function EditProducts() {
     try {
       dispatch({ type: 'UPLOAD_REQUEST' });
       const { data } = await axios.post(
-        'http://localhost:5005/api/upload',
+        `${import.meta.env.VITE_BASE_API_URL}/api/upload`,
         bodyFormData,
         {
           headers: {

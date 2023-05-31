@@ -14,7 +14,7 @@ function Product({ product }) {
     const anItem = cartItems.find((oneItem) => oneItem._id === product._id);
     const quantity = anItem ? anItem.quantity + 1 : 1;
     const { data } = await axios.get(
-      `http://localhost:5005/api/products/${item._id}`
+      `${import.meta.env.VITE_BASE_API_URL}/api/products/${item._id}`
     );
     if (data.countInTock < quantity) {
       window.alert('Product will be available soon');

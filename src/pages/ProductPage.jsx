@@ -34,7 +34,7 @@ function ProductPage() {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const response = await axios.get(
-          `http://localhost:5005/api/products/slug/${slug}`
+          `${import.meta.env.VITE_BASE_API_URL}/api/products/slug/${slug}`
         );
         dispatch({ type: 'FETCH_SUCCUESS', payload: response.data });
       } catch (error) {
@@ -51,7 +51,7 @@ function ProductPage() {
     );
     const quantity = anItem ? anItem.quantity + 1 : 1;
     const { data } = await axios.get(
-      `http://localhost:5005/api/products/${product._id}`
+      `${import.meta.env.VITE_BASE_API_URL}/api/products/${product._id}`
     );
     if (data.countInTock < quantity) {
       window.alert('Product will be available soon');

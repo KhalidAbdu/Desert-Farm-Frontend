@@ -21,7 +21,7 @@ function CartPage() {
   } = state;
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(
-      `http://localhost:5005/api/products/${item._id}`
+      `${import.meta.env.VITE_BASE_API_URL}/api/products/${item._id}`
     );
     if (data.countInTock < quantity) {
       window.alert('Product will be available soon');

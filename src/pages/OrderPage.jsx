@@ -38,7 +38,7 @@ function OrderPage() {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
       const { data } = await axios.post(
-        'http://localhost:5005/api/orders',
+        `${import.meta.env.VITE_BASE_API_URL}/api/orders`,
         {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,

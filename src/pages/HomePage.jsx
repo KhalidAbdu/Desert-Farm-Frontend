@@ -29,7 +29,9 @@ function HomePage() {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        const response = await axios.get('http://localhost:5005/api/products');
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_API_URL}/api/products`
+        );
         dispatch({ type: 'FETCH_SUCCUESS', payload: response.data });
       } catch (error) {
         dispatch({ type: 'FETCH_FAIL', payload: error.message });

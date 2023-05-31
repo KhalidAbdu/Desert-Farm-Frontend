@@ -34,7 +34,7 @@ function ProfilePage() {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        'http://localhost:5005/api/users/profile',
+        `${import.meta.env.VITE_BASE_API_URL}/api/users/profile`,
         {
           name,
           email,

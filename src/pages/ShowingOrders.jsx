@@ -36,7 +36,7 @@ function ShowingOrders() {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
         const { data } = await axios.get(
-          `http://localhost:5005/api/orders/${orderId}`,
+          `${import.meta.env.VITE_BASE_API_URL}/api/orders/${orderId}`,
           {
             headers: { authorization: `Bearer ${userInfo.token}` },
           }
