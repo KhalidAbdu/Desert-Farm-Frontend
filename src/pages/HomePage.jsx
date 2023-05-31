@@ -5,7 +5,6 @@ import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
-import logger from 'use-reducer-logger';
 
 const reducer = (state, action) => {
   switch (action.type) {
