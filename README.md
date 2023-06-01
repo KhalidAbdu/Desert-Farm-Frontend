@@ -4,7 +4,7 @@ This is a React website that allow people to buy agriculture products such as ho
 
 ## Getting Started:
 
-This is the frontend of the project, you can access the web application by navigating to http://localhost:3000 in your web browser.
+This is the frontend of the project, you can access the web application by navigating to https://exquisite-faun-dbb675.netlify.app/ in your web browser.
 You can start it using the command npm run dev
 
 ## Features:
