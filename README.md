@@ -1,6 +1,6 @@
 # Desert Farm:
 
-This is a React website that allow people to buy agriculture products such as honey, olive oil, milk, ...
+This is a React-based website that allows people to conveniently purchase a variety of high-quality agricultural products. Whether you're in search of honey, olive oil, milk, or other agricultural goodies, our website provides a user-friendly platform to explore and buy these products.
 
 ## Getting Started:
 
