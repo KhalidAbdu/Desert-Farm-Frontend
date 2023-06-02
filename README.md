@@ -9,17 +9,24 @@ You can start it using the command npm run dev
 
 ## Features:
 
-This web application has the following features :
 
-View different products from the Desert Farm  
-View details of each product  
-Add products to your cart  
-Enter your shipping address  
-Enter the prefered payment method  
-Place an order  
-Admin dashboard  
-Admin delete, edit and create products  
-Orderlist view in admin page and much more
+User Interface:  
+. Product Catalog: Browse a wide selection of products available from the Desert Farm.  
+. Product Details: View detailed information, including descriptions, images, and pricing, for each product.  
+. Add to Cart: Conveniently add products to your cart for future purchase.  
+. Secure Checkout: Enter your shipping address and preferred payment method for a seamless and secure checkout process.  
+. Place an Order: Easily place an order and receive confirmation of your purchase.  
+
+Admin Functionality:  
+. Admin Dashboard: Access a dedicated admin dashboard for managing the website's products.  
+. Product Management: Edit, delete, and create new products through the admin interface.  
+. Order Management: Monitor and track orders through the order list view in the admin page.  
+
+Additional Features:  
+. Responsive Design: Enjoy a responsive and user-friendly interface that adapts to different screen sizes and devices.  
+. Authentication: Create an account or sign in to access personalized features, such as order history and saved addresses.  
+. Order Tracking: Stay informed about the progress of your orders, from purchase to delivery.  
+
 
 ## Technologies Used:
 
