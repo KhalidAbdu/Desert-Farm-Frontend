@@ -2,10 +2,12 @@
 
 This is a React-based website that allows people to conveniently purchase a variety of high-quality agricultural products. Whether you're in search of honey, olive oil, milk, or other agricultural goodies, our website provides a user-friendly platform to explore and buy these products.
 
-## Getting Started:
+## Getting Started:  
 
-This is the frontend of the project, you can access the web application by navigating to https://exquisite-faun-dbb675.netlify.app/ in your web browser.
-You can start it using the command npm run dev
+To access the web application, please follow these steps:
+
+1. Open your web browser and navigate to https://exquisite-faun-dbb675.netlify.app/.  
+2. Explore the various features of the web application, including browsing agricultural products, viewing product details, adding items to the shopping cart, and making secure payments.  
 
 ## Features:
 
